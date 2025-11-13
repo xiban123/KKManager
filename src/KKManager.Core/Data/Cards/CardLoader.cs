@@ -144,6 +144,24 @@ namespace KKManager.Data.Cards
                 card.MissingZipmods = missingZipmods;
                 //Console.WriteLine(card.Location.Name + " requires zipmods that are missing: " + string.Join("; ", missingZipmods));
             }
+
+            // 添加日志：打印当前卡片的 UsedZipmods
+            if (cardZipmodGuids.Length > 0)
+            {
+                Console.WriteLine($"Card [{card.Location.Name}] 使用的 Zipmods:");
+                foreach (var zipmodGuid in cardZipmodGuids)
+                {
+                    // 尝试获取 zipmod 的文件名（如果已安装）
+                    var zipmod = allZipmods.FirstOrDefault(z => z.Guid == zipmodGuid);
+                    var zipmodName = zipmod?.FileName ?? "未安装";
+                    Console.WriteLine($"  - GUID: {zipmodGuid}, 文件名: {zipmodName}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Card [{card.Location.Name}] 未使用任何 Zipmods");
+            }
+
         }
 
         public static bool TryParseCard(FileInfo file, out Card card)
